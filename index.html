@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Blog Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: hsl(210, 20%, 10%);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: hsl(0, 0%, 95%);
+            --accent-color: hsl(240, 100%, 50%);
+            --hover-color: hsl(240, 100%, 60%);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-bar {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: var(--border-radius);
+            outline: none;
+            width: 300px;
+        }
+        .categories {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .category {
+            margin: 0 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .category:hover {
+            color: var(--hover-color);
+        }
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+        }
+        .post-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .post-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+        .newsletter {
+            margin: 40px 0;
+            text-align: center;
+        }
+        .newsletter input {
+            padding: 10px;
+            border: none;
+            border-radius: var(--border-radius);
+            outline: none;
+            width: 200px;
+        }
+        footer {
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <h1>My Blog</h1>
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Search posts..." />
+            </div>
+        </div>
+        <div class="categories">
+            <span class="category">All</span>
+            <span class="category">Technology</span>
+            <span class="category">Lifestyle</span>
+            <span class="category">Travel</span>
+        </div>
+    </header>
+    <main>
+        <div class="posts-grid" id="postsGrid">
+            <!-- Dynamic post cards will be inserted here -->
+        </div>
+        <div class="newsletter">
+            <h2>Subscribe to our Newsletter</h2>
+            <input type="email" placeholder="Your email" />
+            <button>Subscribe</button>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Blog. All rights reserved.</p>
+    </footer>
+    <script>
+        const posts = [
+            { title: 'Post 1', author: 'Author 1', readTime: '5 min', content: 'Lorem ipsum dolor sit amet...' },
+            { title: 'Post 2', author: 'Author 2', readTime: '3 min', content: 'Consectetur adipiscing elit...' },
+            { title: 'Post 3', author: 'Author 3', readTime: '4 min', content: 'Sed do eiusmod tempor incididunt...' },
+            { title: 'Post 4', author: 'Author 4', readTime: '6 min', content: 'Ut enim ad minim veniam...' }
+        ];
+
+        const postsGrid = document.getElementById('postsGrid');
+        const searchInput = document.getElementById('search');
+
+        function renderPosts(filteredPosts) {
+            postsGrid.innerHTML = '';
+            filteredPosts.forEach(post => {
+                const postCard = document.createElement('div');
+                postCard.className = 'post-card';
+                postCard.innerHTML = `<h3>${post.title}</h3><p>by ${post.author} - ${post.readTime}</p><p>${post.content}</p>`;
+                postsGrid.appendChild(postCard);
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchTerm));
+            renderPosts(filteredPosts);
+        });
+
+        renderPosts(posts);
+    </script>
+</body>
+</html>
